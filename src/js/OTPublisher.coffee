@@ -34,14 +34,14 @@ class TBPublisher
     zIndex = TBGetZIndex(@element)
     ratios = TBGetScreenRatios()
     borderRadius = TBGetBorderRadius(@element);
-    if @properties?
-      width = @properties.width ? position.width
-      height = @properties.height ? position.height
-      name = @properties.name ? ""
-      cameraName = @properties.cameraName ? "front"
-      if(@properties.publishAudio? and @properties.publishAudio==false)
+    if properties?
+      width = properties.width ? position.width
+      height = properties.height ? position.height
+      name = properties.name ? ""
+      cameraName = properties.cameraName ? "front"
+      if(properties.publishAudio? and properties.publishAudio==false)
         publishAudio="false"
-      if(@properties.publishVideo? and @properties.publishVideo==false)
+      if(properties.publishVideo? and properties.publishVideo==false)
         publishVideo="false"
     if (not width?) or width == 0 or (not height?) or height==0
       width = DefaultWidth
