@@ -2,7 +2,7 @@
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
     xmlns:android="http://schemas.android.com/apk/res/android"
     id="com.tokbox.cordova.opentok"
-    version="1.0.3">
+    version="1.2.0">
 
     <name>OpenTokCordovaPlugin</name>
     <description>Add live video streaming to your Cordova Application</description>
@@ -27,10 +27,6 @@
       </config-file>
 
       <!-- copy opentok sdk -->
-      <!-- <source-file src="src/android/libs/opentok-android-sdk-2.5.0.jar" target-dir="libs/" />
-      <source-file src="src/android/libs/armeabi/libopentok.so" target-dir="libs/armeabi" />
-      <source-file src="src/android/libs/armeabi/libopentok.so" target-dir="libs/armeabi-v7a" />
-      <source-file src="src/android/libs/x86/libopentok.so" target-dir="libs/x86" /> -->
       <source-file src="src/android/libs/opentok-android-sdk-2.9.0.aar" target-dir="libs/" />
 
       <config-file target="config.xml" parent="/*">
