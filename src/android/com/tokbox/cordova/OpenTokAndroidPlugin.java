@@ -33,6 +33,7 @@ import com.opentok.android.Stream;
 import com.opentok.android.Stream.StreamVideoType;
 import com.opentok.android.Subscriber;
 import com.opentok.android.SubscriberKit;
+import com.opentok.android.SubscriberKit.VideoStatsListener;
 
 
 public class OpenTokAndroidPlugin extends CordovaPlugin implements 
@@ -49,6 +50,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements
   public HashMap<String, Connection> connectionCollection;
   public HashMap<String, Stream> streamCollection;
   public HashMap<String, RunnableSubscriber> subscriberCollection;
+  public JSONObject videoStats = new JSONObject();
 
   static JSONObject viewList = new JSONObject();
   static CordovaInterface _cordova;
@@ -243,6 +245,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements
     //  property contains: [stream.streamId, position.top, position.left, width, height, subscribeToVideo, zIndex] )
     public Subscriber mSubscriber;
     public Stream mStream;
+    public CallbackContext mCb;
 
     public RunnableSubscriber( JSONArray args, Stream stream ){
       this.mProperty = args;
@@ -271,6 +274,19 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements
         frame.addView( this.mView );
         mSession.subscribe(mSubscriber);
         Log.i(TAG, "subscriber view is added to parent view!");
+
+        mSubscriber.setVideoStatsListener(new VideoStatsListener(){
+          @Override
+          public void onVideoStats(SubscriberKit subscriber,
+                                   SubscriberKit.SubscriberVideoStats stats) {
+            try {
+                videoStats.put("videoBytesReceived", stats.videoBytesReceived);
+                videoStats.put("videoPacketsReceived", stats.videoPacketsReceived);
+                videoStats.put("videoPacketsLost", stats.videoPacketsLost);
+            } catch (JSONException e) {
+            }
+          }
+        });
       }
       super.run();
     }
@@ -439,6 +455,7 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements
         mSession.connect( args.getString(0));
       }else if( action.equals( "disconnect" )){
         mSession.disconnect();
+        videoStats = new JSONObject();
       }else if( action.equals( "publish" )){
         if( sessionConnected ){
           Log.i( TAG, "publisher is publishing" );
@@ -459,12 +476,15 @@ public class OpenTokAndroidPlugin extends CordovaPlugin implements
         Log.i( TAG, "unsubscribe data: " + args.toString() );
         RunnableSubscriber runsub = subscriberCollection.get( args.getString(0) );
         runsub.unsubscribe();
+        videoStats = new JSONObject();
       }else if( action.equals( "subscribe" )){
         Log.i( TAG, "subscribe command called");
         Log.i( TAG, "subscribe data: " + args.toString() );
         Stream stream = streamCollection.get( args.getString(0) );
-        RunnableSubscriber runsub = new RunnableSubscriber( args, stream ); 
+        RunnableSubscriber runsub = new RunnableSubscriber( args, stream );
         subscriberCollection.put(stream.getStreamId(), runsub);
+      }else if( action.equals( "getstats" )){
+        callbackContext.success(videoStats);
       }else if( action.equals( "updateView" )){
         if( args.getString(0).equals("TBPublisher") && myPublisher != null && sessionConnected ){
           Log.i( TAG, "updating view for publisher" );

@@ -820,6 +820,10 @@ TBStream = (function() {
 var TBSubscriber;
 
 TBSubscriber = (function() {
+  TBSubscriber.prototype.getStats = function(success, error) {
+    Cordova.exec(success, error, OTPlugin, 'getstats', []);
+  };
+
   TBSubscriber.prototype.getAudioVolume = function() {
     return 0;
   };
