@@ -1,17 +1,16 @@
 {
-  "name": "Cordova-Plugin-OpenTok",
-  "version": "2.2.0",
-  "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-contrib-coffee": "^0.10.1",
-    "grunt-contrib-concat": "^0.4.0",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.3.3",
-    "grunt-contrib-uglify": "~0.4.0",
-    "grunt-contrib-watch": "~0.6.1"
-  },
-  "dependencies": {
-    "exec": "^0.2.0",
-    "tar": "^1.0.3"
-  }
+    "version": "1.2.1",
+    "name": "com.tokbox.cordova.opentok",
+    "cordova_name": "OpenTokCordovaPlugin",
+    "description": "Add live video streaming to your Cordova Application",
+    "license": "Apache 2.0",
+    "keywords": [
+        "opentok",
+        "tokbox"
+    ],
+    "platforms": [
+        "android",
+        "ios"
+    ],
+    "engines": []
 }

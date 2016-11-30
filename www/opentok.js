@@ -267,8 +267,8 @@ TBGetZIndex = function(ele) {
 
 TBGetScreenRatios = function() {
   return {
-    widthRatio: window.outerWidth / window.innerWidth,
-    heightRatio: window.outerHeight / window.innerHeight
+    widthRatio: window.devicePixelRatio,
+    heightRatio: window.devicePixelRatio
   };
 };
 
@@ -322,15 +322,15 @@ TBPublisher = (function() {
     zIndex = TBGetZIndex(this.element);
     ratios = TBGetScreenRatios();
     borderRadius = TBGetBorderRadius(this.element);
-    if (this.properties != null) {
-      width = (_ref = this.properties.width) != null ? _ref : position.width;
-      height = (_ref1 = this.properties.height) != null ? _ref1 : position.height;
-      name = (_ref2 = this.properties.name) != null ? _ref2 : "";
-      cameraName = (_ref3 = this.properties.cameraName) != null ? _ref3 : "front";
-      if ((this.properties.publishAudio != null) && this.properties.publishAudio === false) {
+    if (properties != null) {
+      width = (_ref = properties.width) != null ? _ref : position.width;
+      height = (_ref1 = properties.height) != null ? _ref1 : position.height;
+      name = (_ref2 = properties.name) != null ? _ref2 : "";
+      cameraName = (_ref3 = properties.cameraName) != null ? _ref3 : "front";
+      if ((properties.publishAudio != null) && properties.publishAudio === false) {
         publishAudio = "false";
       }
-      if ((this.properties.publishVideo != null) && this.properties.publishVideo === false) {
+      if ((properties.publishVideo != null) && properties.publishVideo === false) {
         publishVideo = "false";
       }
     }
@@ -820,6 +820,10 @@ TBStream = (function() {
 var TBSubscriber;
 
 TBSubscriber = (function() {
+  TBSubscriber.prototype.getStats = function(success, error) {
+    Cordova.exec(success, error, OTPlugin, 'getstats', []);
+  };
+
   TBSubscriber.prototype.getAudioVolume = function() {
     return 0;
   };
